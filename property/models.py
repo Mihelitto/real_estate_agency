@@ -46,7 +46,7 @@ class Flat(models.Model):
         null=True,
         blank=True,
         db_index=True)
-    new_building = models.NullBooleanField('Новостройка')
+    new_building = models.NullBooleanField('Новостройка', db_index=True)
 
     likes = models.ManyToManyField(User, verbose_name='Кто лайкнул', null=True, blank=True)
 
@@ -62,7 +62,7 @@ class Owner(models.Model):
     name = models.CharField('ФИО владельца', max_length=200, db_index=True)
     owners_phonenumber = models.CharField('Номер владельца', max_length=20)
     owner_pure_phone = PhoneNumberField('Нормализованный номер владельца', null=True, blank=True)
-    flats = models.ManyToManyField(Flat, verbose_name='Квартиры в собственности', related_name='owners')
+    flats = models.ManyToManyField(Flat, verbose_name='Квартиры в собственности', related_name='owners', db_index=True)
 
     class Meta:
         verbose_name = 'Собственник'
@@ -73,8 +73,13 @@ class Owner(models.Model):
 
 
 class Complaint(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Кто пожаловался')
-    flat = models.ForeignKey(Flat, on_delete=models.CASCADE, verbose_name='Квартира, на которую жаловались')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Кто пожаловался', db_index=True)
+    flat = models.ForeignKey(
+        Flat,
+        on_delete=models.CASCADE,
+        verbose_name='Квартира, на которую жаловались',
+        db_index=True,
+    )
     text = models.TextField('Текст жалобы')
 
     class Meta:
