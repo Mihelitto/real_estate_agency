@@ -15,7 +15,6 @@ def copy_owners(apps, schema_editor):
         owner.flats.set([flat])
 
 
-
 class Migration(migrations.Migration):
 
     dependencies = [

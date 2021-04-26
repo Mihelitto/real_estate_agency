@@ -10,11 +10,17 @@ def parse_phonenumbers(apps, schema_editor):
     for flat in Flat.objects.all():
         if flat.owners_phonenumber:
             try:
-                parsed_phone = phonenumbers.parse(flat.owners_phonenumber, 'RU')
+                parsed_phone = phonenumbers.parse(
+                    flat.owners_phonenumber,
+                    'RU',
+                )
             except NumberParseException:
                 continue
             if phonenumbers.is_valid_number(parsed_phone):
-                flat.owner_pure_phone = phonenumbers.format_number(parsed_phone, phonenumbers.PhoneNumberFormat.E164)
+                flat.owner_pure_phone = phonenumbers.format_number(
+                    parsed_phone,
+                    phonenumbers.PhoneNumberFormat.E164,
+                )
                 flat.save()
 
 
@@ -25,5 +31,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(parse_phonenumbers)
+        migrations.RunPython(parse_phonenumbers),
     ]

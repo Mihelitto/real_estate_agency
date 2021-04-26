@@ -4,19 +4,25 @@ from .models import Flat, Complaint, Owner
 
 class OwnerInline(admin.TabularInline):
     model = Owner.flats.through
-    raw_id_fields = ['owner',]
+    raw_id_fields = ['owner']
     verbose_name = 'Собственник'
     verbose_name_plural = 'Собственники'
 
 
 class FlatAdmin(admin.ModelAdmin):
-    search_fields = ['town',]
-    readonly_fields = ['created_at',]
-    list_display = ['address', 'price', 'new_building', 'construction_year', 'town']
-    list_editable = ['new_building',]
-    list_filter = ['new_building',]
-    raw_id_fields = ['likes',]
-    inlines = [OwnerInline,]
+    search_fields = ['town']
+    readonly_fields = ['created_at']
+    list_display = [
+        'address',
+        'price',
+        'new_building',
+        'construction_year',
+        'town',
+    ]
+    list_editable = ['new_building']
+    list_filter = ['new_building']
+    raw_id_fields = ['likes']
+    inlines = [OwnerInline]
 
 
 class ComplaintAdmin(admin.ModelAdmin):
